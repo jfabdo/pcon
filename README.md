@@ -1,2 +1,3 @@
 # pcon
-ssh ftp scp rsync around proxy
+
+Proxy wrapper for ssh and scp to automatically use a Windows proxy.
