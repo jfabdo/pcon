@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 #usage: ssh USER@FINAL_DEST -o "ProxyCommand=nc -X connect -x PROXY:PROXYPORT %h %p"
 #pcon ssh USER@FINAL_DEST
@@ -6,29 +6,27 @@
 #future:
 #pcon ssh USER@FINAL_DEST -pp PROXY:PROXYPORT
 
-proxy="indyzproxy.am.thmulti.com:80"
+proxy=""
 
 tempary=()
-pflag=false
+#declare -a tempary
+pflag=0
+
 for i in $@; do
-  if [ $i='-p' ]; then
-    pflag=true
-  elif [ $pflag ]; then
-    pflag=false
+  if [ $i == '-p' ]; then
+    pflag=1
+  elif [ $pflag -eq 1 ]; then
+    pflag=0
     proxy=$i
   else
-    tempary+=$i
+    tempary+="$i "
   fi
-
 done
 
-unset tempary[0]
 trmary=("-o \"ProxyCommand=nc -X connect -x " $proxy " %h %p\"")
 
 if [ $1="ssh" ]; then
-  unset tempary[1]#wackyslappyhackytaffy
-  unset tempary[2]
-  trmthng=($1 $2 "${trmary[@]}" "${tempary[@]}")
+  trmthng=("${tempary[@]:0:1}" "${trmary[@]}" "${tempary[@]:2}")
 elif [ $1="scp" ]; then
   trmthng=("${tempary[@]}" "${trmary[@]}")
 else
