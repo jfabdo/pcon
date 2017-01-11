@@ -6,7 +6,7 @@
 #future:
 #pcon ssh USER@FINAL_DEST -pp PROXY:PROXYPORT
 
-proxy=""
+proxy=" "
 
 tempary=()
 #declare -a tempary
